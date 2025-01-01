@@ -20,9 +20,24 @@ vpath %.cpp libs/RTP-MIDI libs/BEBSDK
 
 all: $(TARGET)
 
+debug: CXXFLAGS += -g -DSHOW_RTP_INFO
+debug: all
+
 $(TARGET): $(OBJECTS)
 	$(CXX) $(CXXFLAGS) $^ $(LDLIBS) -o $@
 
 .PHONY: clean
 clean:
 	$(RM) -frv *.o $(TARGET)
+
+
+## Other helper rules
+
+run:
+	./$(TARGET)
+
+run-with-gdb:
+	gdb \
+		-ex 'set print pretty on' \
+		-ex run \
+		$(TARGET)

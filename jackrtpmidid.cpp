@@ -90,7 +90,29 @@ void* RTThreadFunc (CThread* Control)
     while (Control->ShouldStop==false)
     {
         if (RTPMIDIHandler1)
+        {
+            // NOTE: writePtr could be modified by Jack thread, but readPtr is not
+            int readPtr = JACK2RTP.ReadPtr;
+            int writePtr = JACK2RTP.WritePtr;
+
+            if (writePtr > readPtr)
+            {
+                if (RTPMIDIHandler1->SendRTPMIDIBlock(writePtr - readPtr,
+                    JACK2RTP.FIFO + JACK2RTP.ReadPtr))
+                    JACK2RTP.ReadPtr = writePtr;
+            }
+
+            else if (readPtr > writePtr)
+            {
+                if (RTPMIDIHandler1->SendRTPMIDIBlock(
+                    MIDI_CHAR_FIFO_SIZE - readPtr, JACK2RTP.FIFO + JACK2RTP.ReadPtr))
+                    if (RTPMIDIHandler1->SendRTPMIDIBlock(writePtr, JACK2RTP.FIFO))
+                        JACK2RTP.ReadPtr = writePtr;
+            }
+
             RTPMIDIHandler1->RunSession();
+        }
+
         if (RTPMIDIHandler2)
             RTPMIDIHandler2->RunSession();
         SystemSleepMillis(1);
