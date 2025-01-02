@@ -1,3 +1,9 @@
+#
+# File: Makefile
+# JACK RTP-MIDI daemon for Zynthian
+# Author: Oscar Aceña
+#
+
 TARGET  = jackrtpmidid
 OBJECTS = \
 	jackrtpmidid.o \
@@ -30,7 +36,6 @@ $(TARGET): $(OBJECTS)
 clean:
 	$(RM) -frv *.o $(TARGET)
 
-
 ## Other helper rules
 
 run:
@@ -41,3 +46,9 @@ run-with-gdb:
 		-ex 'set print pretty on' \
 		-ex run \
 		$(TARGET)
+
+package:
+	ian build -c
+
+package-clean: clean
+	ian clean

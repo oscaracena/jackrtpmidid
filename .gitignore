@@ -1,3 +1,7 @@
 *.o
 .vscode
 jackrtpmidid
+debian/debhelper-build-stamp
+debian/files
+debian/jackrtpmidid.debhelper.log
+debian/jackrtpmidid.substvars
