@@ -14,9 +14,9 @@ You can download a precompiled Debian package (for Zynthian) from the releases p
 
 ## Build
 
-You can compile the daemon in Linux, with GNU Make. Just clone the repo in the specific branch, and run `make`:
+You can compile the daemon in Linux, with GNU Make. Just clone the repo and run `make`:
 
-    git clone --branch gnu-make --recurse-submodules https://github.com/oscaracena/jackrtpmidid.git
+    git clone --recurse-submodules https://github.com/oscaracena/jackrtpmidid.git
     make
 
 
